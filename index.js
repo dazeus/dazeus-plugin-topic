@@ -26,6 +26,8 @@ var TXT_CURRENT = "The current topic was set by %s at %s (%s)";
 var TXT_PREVIOUS = "The%s previous topic for this channel was set by %s at %s (%s), it was:";
 var TXT_DUNNO = "Dunno what ya talkin' 'bout";
 
+var CHANNEL_REGEX = /^([#&][^\x07\x2C\s]{0,200})$/;
+
 // lets parse command line args
 var argv = dazeus.optimist().argv;
 dazeus.help(argv);
@@ -54,8 +56,8 @@ var client = dazeus.connect(options, function () {
             if (isNaN(which)) {
                 which = 1;
                 var argsplit = dazeus.firstArgument(args);
-                if (/^([#&][^\x07\x2C\s]{0,200})$/.test(argsplit[0].trim())) {
-                    forChannel = args.trim();
+                if (CHANNEL_REGEX.test(argsplit[0].trim())) {
+                    forChannel = argsplit[0].trim();
                     if (typeof argsplit[1] !== 'undefined') {
                         which = parseInt(argsplit[1], 10);
                         if (isNaN(which)) {
@@ -75,7 +77,7 @@ var client = dazeus.connect(options, function () {
                 which *= -1;
             }
 
-            if (!/^([#&][^\x07\x2C\s]{0,200})$/.test(forChannel)) {
+            if (!CHANNEL_REGEX.test(forChannel)) {
                 client.reply(network, channel, user, TXT_DUNNO);
             } else {
                 getPreviousTopic(network, forChannel, client, which, function (topic, user, time, reason) {
@@ -134,7 +136,7 @@ var getPreviousTopic = function (network, channel, client, n, callback) {
         });
     } else {
         getPreviousTopics(network, channel, client, function (topics) {
-            if (typeof topics[n - 1] !== 'undefined') {
+            if (typeof topics[n - 1] === 'object') {
                 var topic = topics[n - 1];
                 callback(topic.topic, topic.user, new Date(topic.time), PREVIOUS);
             } else {
