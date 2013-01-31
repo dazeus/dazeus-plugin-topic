@@ -136,7 +136,7 @@ var getPreviousTopic = function (network, channel, client, n, callback) {
         });
     } else {
         getPreviousTopics(network, channel, client, function (topics) {
-            if (typeof topics[n - 1] === 'object') {
+            if (typeof topics[n - 1] === 'object' && topics[n - 1] !== null) {
                 var topic = topics[n - 1];
                 callback(topic.topic, topic.user, new Date(topic.time), PREVIOUS);
             } else {
