@@ -80,14 +80,14 @@ var client = dazeus.connect(options, function () {
             if (!CHANNEL_REGEX.test(forChannel)) {
                 client.reply(network, channel, user, TXT_DUNNO);
             } else {
-                getPreviousTopic(network, forChannel, client, which, function (topic, user, time, reason) {
+                getPreviousTopic(network, forChannel, client, which, function (topic, topicUser, time, reason) {
                     if (reason === NO_CHANGES) {
                         client.reply(network, channel, user, TXT_NO_CHANGES, false);
                     } else if (reason === TOO_FAR) {
                         client.reply(network, channel, user, TXT_TOO_FAR, false);
                     } else if (reason === CURRENT) {
                         client.reply(network, channel, user, util.format(TXT_CURRENT,
-                            user, displayTime(time), datetime.formatAgo(time)), false);
+                            topicUser, displayTime(time), datetime.formatAgo(time)), false);
                     } else {
                         var changed = "";
                         if (which > 1) {
@@ -95,7 +95,7 @@ var client = dazeus.connect(options, function () {
                         }
 
                         var notify = util.format(TXT_PREVIOUS,
-                            changed, user, displayTime(time), datetime.formatAgo(time));
+                            changed, topicUser, displayTime(time), datetime.formatAgo(time));
                         client.reply(network, channel, user, notify, false);
                         client.reply(network, channel, user, topic, false);
                     }
