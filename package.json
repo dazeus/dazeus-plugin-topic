@@ -1,0 +1,27 @@
+{
+  "name": "dazeus-plugin-topic",
+  "version": "0.1.0",
+  "description": "Topic history",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dazeus/dazeus-plugin-topic.git"
+  },
+  "keywords": [
+    "dazeus",
+    "irc",
+    "topic",
+    "history"
+  ],
+  "author": "Ruben Nijveld <ruben@gewooniets.nl>",
+  "license": "BSD",
+  "dependencies": {
+    "dazeus": "",
+    "js-methods": "",
+    "prettydate": "",
+    "datetime": ""
+  }
+}
