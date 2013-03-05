@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 require('js-methods');
 var dazeus = require('dazeus');
 var strftime = require('prettydate').strftime;
